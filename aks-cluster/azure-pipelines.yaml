@@ -1,0 +1,44 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool: Default # for the agent inside the default pool
+  #vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+
+- script:  ls
+  
+  displayName: 'Run a one-line script'
+
+- script: | 
+    cd aks-cluster
+    ls
+- script: ls
+- script: |
+    cd aks-cluster
+    terraform init
+  displayName: init
+
+ 
+- script: |
+    cd aks-cluster
+    terraform plan
+  displayName: plan
+ 
+
+- script: |
+    cd aks-cluster
+    terraform apply -auto-approve
+  displayName: apply
+
+
+- script: |
+    cd aks-cluster
+    terraform destroy -auto-approve
+  displayName: destroy
